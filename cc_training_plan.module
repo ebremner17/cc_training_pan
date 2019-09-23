@@ -1,0 +1,46 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Disable title form element.
+ */
+function cc_training_plan_form_node_cc_training_plan_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
+
+  // Disable the title field.
+  $form['title']['#disabled'] = 'disabled';
+
+  // Set a default title, so that the node can be saved, this will be changed
+  // when the node is saved to use start and end dates.
+  $form['title']['widget'][0]['value']['#default_value'] = 'Training Plan';
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+function cc_training_plan_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
+
+  // If we are on a routine orders, set the title.
+  if ($entity->bundle() == 'cc_training_plan') {
+
+    // The start date for the ROs, changing format.
+    $date = date('M j, Y', strtotime($entity->get('field_cc_tp_training_date')->value));
+
+    // Set the title based on the start and end dates.
+    $entity->setTitle('Training Plan for ' . $date);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Disable title form element.
+ */
+function cc_training_plan_form_node_cc_training_plan_edit_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
+
+  // Disable the title field.
+  $form['title']['#disabled'] = 'disabled';
+}

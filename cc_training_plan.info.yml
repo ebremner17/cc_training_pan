@@ -12,3 +12,5 @@ dependencies:
   - node
   - path
   - user
+  - views
+core_incompatible: false
