@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.cc_training_plan
+  module:
+    - user
+id: node.cc_training_plan.teaser
+targetEntityType: node
+bundle: cc_training_plan
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

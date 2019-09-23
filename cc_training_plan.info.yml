@@ -1,0 +1,14 @@
+name: 'Training plan'
+description: 'Provides training plan.'
+type: module
+core: 8.x
+dependencies:
+  - datetime
+  - entity_browser_block_layout
+  - field
+  - file
+  - image
+  - menu_ui
+  - node
+  - path
+  - user

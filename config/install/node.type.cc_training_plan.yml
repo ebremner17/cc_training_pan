@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_browser_block_layout
+    - menu_ui
+third_party_settings:
+  entity_browser_block_layout:
+    entity_browser_block_layout_view_modes:
+      default: default
+      full: 0
+      rss: 0
+      search_index: 0
+      search_result: 0
+      teaser: 0
+      token: 0
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Training plan'
+type: cc_training_plan
+description: 'Provides training plan.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false
