@@ -1,0 +1,7 @@
+{
+  "name": "ebremner17/cc_training_plan",
+  "description": "Training plan for Cadets Canada.",
+  "type": "drupal-custom-module",
+  "homepage": "https://github.com/ebremner17/cc_training_plan",
+  "keywords": ["Drupal"]
+}
