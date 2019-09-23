@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: cc_pa_training_plan
+label: 'Training plan'
+type: 'canonical_entities:node'
+pattern: 'training-plan/[node:title]'
+selection_criteria:
+  23bcad46-d4c7-494a-86df-6701ac4d0fe7:
+    id: node_type
+    bundles:
+      cc_training_plan: cc_training_plan
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 23bcad46-d4c7-494a-86df-6701ac4d0fe7
+selection_logic: and
+weight: -5
+relationships: {  }
