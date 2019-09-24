@@ -44,3 +44,32 @@ function cc_training_plan_form_node_cc_training_plan_edit_form_alter(&$form, For
   // Disable the title field.
   $form['title']['#disabled'] = 'disabled';
 }
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Set upcoming training plan to between parade nights.
+ */
+function cc_training_plan_views_query_alter(Drupal\views\ViewExecutable $view, Drupal\views\Plugin\views\query\Sql $query) {
+
+  // If on the upcoming training plan view, process it.
+  if ($view->id() == 'cc_view_training_plan_upcoming' && $view->getDisplay()->display['id'] == 'training_plan_upcoming') {
+
+    // Get the site settings config.
+    $config = \Drupal::config('cc_site_controller.sitesettings');
+
+    // If the parade night is set, add condition to view.
+    if ($config->get('parade_night') !== NULL) {
+
+      // Start and end dates for between condition.
+      $start = date('Y-m-dT00:00:00', strtotime('-1 ' . $config->get('parade_night')));
+      $end = date('Y-m-dT00:00:00', strtotime('+1 ' . $config->get('parade_night')));
+    }
+
+    // The actual condition.
+    $condition = "DATE_FORMAT(node__field_cc_tp_training_date.field_cc_tp_training_date_value, '%Y-%m-%d') BETWEEN DATE_FORMAT('" . $start . "', '%Y-%m-%d') AND DATE_FORMAT('" . $end . "', '%Y-%m-%d')";
+
+    // Add the where clause.
+    $query->addWhere('', $condition, array(), 'formula');
+  }
+}
