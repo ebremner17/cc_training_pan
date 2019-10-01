@@ -2,6 +2,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -71,5 +72,50 @@ function cc_training_plan_views_query_alter(Drupal\views\ViewExecutable $view, D
 
     // Add the where clause.
     $query->addWhere('', $condition, array(), 'formula');
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update() for node entities.
+ *
+ * Sends emails to users when changed to published.
+ */
+function cc_training_plan_node_insert(NodeInterface $node) {
+
+  if ($node->type->getValue()[0]['target_id'] == 'cc_training_plan') {
+
+    $params['type'] = 'training';
+
+    _cc_site_controller_send_emails('training_created', $params);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update() for node entities.
+ *
+ * Sends emails to users when changed to published.
+ */
+function cc_training_plan_node_update(NodeInterface $node) {
+
+  // If we are on a news, process it.
+  if ($node->type->getValue()[0]['target_id'] == 'cc_training_plan') {
+
+    // The updated nodes status.
+    $node_status = $node->status->getValue()[0]['value'];
+
+    if (isset($node->original->status->getValue()[0]['value']) && $node->original->status->getValue()[0]['value'] !== NULL) {
+      $original_node_status = $node->original->status->getValue()[0]['value'];
+    }
+    else {
+      $original_node_status = 0;
+    }
+
+    // If we are changing to a published node, send emails.
+    if (!$original_node_status && $node_status) {
+
+      $params['type'] = 'training';
+
+      _cc_site_controller_send_emails('training_created', $params);
+    }
   }
 }
